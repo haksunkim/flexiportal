@@ -1,0 +1,31 @@
+{{ define "layout"}}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FlexiPortal</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="widt=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet"></link>
+  </head>
+  <body>
+    {{ template "header"}}
+    <div class="container">
+      {{ template "content" }}
+    </div>
+    {{ template "footer" }}
+
+    <script src="/resources/js/jquery-3.2.1.min.js"></script>
+    <script src="/resources/js/tether.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+{{ end }}
+
+{{ define "content" }}
+
+<h1>Welcome to FlexiPortal!</h1>
+
+{{ end }}

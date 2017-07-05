@@ -1,10 +1,6 @@
-hash: 1bff607bc560d094b0b7288ee712ca9d68a4481205f1ddeccd6081e2796b9622
-updated: 2017-06-27T21:16:47.9617641+10:00
+hash: 1e557eb844fbce4a4fca03639d8ea3badf162c090c203ea4aea79768fffc4041
+updated: 2017-07-03T20:47:50.9468021+10:00
 imports:
-- name: github.com/gorilla/context
-  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/mux
   version: bcd8bc72b08df0f70df986b97f95590779502d31
-- name: github.com/steinbacher/goose
-  version: dc457c3195032dd1c3848e21dc95ed02c92f8cfa
 testImports: []

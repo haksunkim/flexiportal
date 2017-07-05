@@ -1,0 +1,9 @@
+{
+    "appname": "FlexiPortal v1.0"
+    ,"db": {
+        "host": "localhost"
+        ,"user": "flexiportal"
+        ,"password": "flexiportal"
+        ,"port": 3306
+    }
+}
