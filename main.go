@@ -5,7 +5,6 @@ import (
 	"github.com/haksunkim/flexiportal/app/controller"
 	"log"
 	"net/http"
-	"fmt"
 	"io/ioutil"
 	"encoding/json"
 )
