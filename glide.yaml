@@ -2,3 +2,5 @@ package: github.com/haksunkim/flexiportal
 import:
 - package: github.com/gorilla/mux
   version: ^1.4.0
+- package: github.com/gorilla/csrf
+  version: ^1.5.0

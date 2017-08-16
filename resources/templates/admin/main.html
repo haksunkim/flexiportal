@@ -1,0 +1,31 @@
+{{ define "content" }}
+<div class="container">
+    <h1>Administrator Dashboard</h1>
+    <div class="row">
+        <h2>Articles</h2>
+    </div>
+    <div class="row">
+        <form class="form">
+            <div class="form-group">
+                <a href="/admin/blog/new" class="btn btn-primary">Add Article</a>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <th>Date</th><th>Title</th><th>Author</th>
+            </thead>
+            <tbody>
+            {{ range . }}
+            <tr>
+                <td>{{ .Title }}</td>
+                <td>{{ .Content }}</td>
+                <td>{{ .UserId }}</td>
+            </tr>
+            {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ end }}

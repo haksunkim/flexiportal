@@ -1,33 +1,47 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/haksunkim/flexiportal/app/controller"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"io/ioutil"
-	"encoding/json"
+	"strconv"
 )
 
 type Configuration struct {
 	AppName string
-	DB struct {
-		Host string
-		User string
+	DB      struct {
+		Host     string
+		Name     string
+		User     string
 		Password string
-		Port uint
+		Port     int
 	}
 }
 
 var Config Configuration
 
 func main() {
-	bac,_ := ioutil.ReadFile("config.json")
-	json.Unmarshal(bac, &Config)
-	
+	bac, _ := ioutil.ReadFile("config.json")
+	err := json.Unmarshal(bac, &Config)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dbConn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", Config.DB.User, Config.DB.Password, Config.DB.Host, strconv.Itoa(Config.DB.Port), Config.DB.Name)
+
+	controller.DBConn = dbConn
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", controller.HomeHandler)
 	r.PathPrefix("/resources/").Handler(http.StripPrefix("/resources/", http.FileServer(http.Dir("./resources"))))
+	r.HandleFunc("/admin/main", controller.AdminMainHandler)
+	r.HandleFunc("/admin/blog/new", controller.NewBlogHandler)
+	r.HandleFunc("/admin/blog", controller.CreateBlogHandler).
+		Methods("POST")
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }

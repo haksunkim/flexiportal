@@ -1,6 +1,12 @@
-hash: 1e557eb844fbce4a4fca03639d8ea3badf162c090c203ea4aea79768fffc4041
-updated: 2017-08-04T21:34:02.1847335+10:00
+hash: 6cb7bfe4612caaee61a2f4e3dfb46301f726c9d060a3f3e363311e4cee8f8921
+updated: 2017-08-12T20:35:39.6263594+10:00
 imports:
+- name: github.com/go-sql-driver/mysql
+  version: 3955978caca48c1658a4bb7a9c6a0f084e326af3
+- name: github.com/gorilla/context
+  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
+- name: github.com/gorilla/csrf
+  version: 69581736821c33d85bbf378f42f6ad864dbd85de
 - name: github.com/gorilla/mux
   version: bcd8bc72b08df0f70df986b97f95590779502d31
 testImports: []
