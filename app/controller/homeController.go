@@ -1,22 +1,23 @@
 package controller
 
 import (
-	"html/template"
-	"net/http"
 	"database/sql"
-	"time"
-	"log"
 	_ "github.com/go-sql-driver/mysql"
+	"html/template"
+	"log"
+	"net/http"
+	"time"
 )
 
-type Blog struct {
-	Id uint
-	Title string
-	Content string
-	UserId uint
+type Post struct {
+	Id        uint
+	Guid      string
+	Title     string
+	Content   string
+	UserId    uint
 	CreatedAt *time.Time
 }
-type Blogs []Blog
+type Posts []Post
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseGlob("resources/templates/layout/*")
@@ -26,7 +27,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	stmt, err := db.Prepare("SELECT id, title, content, user_id, created_at FROM blog;")
+	stmt, err := db.Prepare("SELECT id, title, content, user_id, created_at FROM post;")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,18 +38,18 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var blogs Blogs
+	var posts Posts
 	for rows.Next() {
-		var blog Blog
-		err := rows.Scan(&blog.Id, &blog.Title, &blog.Content, &blog.UserId, &blog.CreatedAt)
+		var post Post
+		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.UserId, &post.CreatedAt)
 
 		if err != nil {
 			log.Fatal(err)
 		}
-		blogs = append(blogs, blog)
-		log.Printf("%s: %s", blog.Title, blog.Content)
+		posts = append(posts, post)
+		log.Printf("%s: %s", post.Title, post.Content)
 	}
-	err = t.ExecuteTemplate(w, "layout", blogs)
+	err = t.ExecuteTemplate(w, "layout", posts)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -39,8 +39,8 @@ func main() {
 	r.HandleFunc("/", controller.HomeHandler)
 	r.PathPrefix("/resources/").Handler(http.StripPrefix("/resources/", http.FileServer(http.Dir("./resources"))))
 	r.HandleFunc("/admin/main", controller.AdminMainHandler)
-	r.HandleFunc("/admin/blog/new", controller.NewBlogHandler)
-	r.HandleFunc("/admin/blog", controller.CreateBlogHandler).
+	r.HandleFunc("/admin/post/new", controller.NewPostHandler)
+	r.HandleFunc("/admin/post", controller.CreatePostHandler).
 		Methods("POST")
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":8000", nil))

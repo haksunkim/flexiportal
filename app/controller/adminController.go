@@ -1,11 +1,11 @@
 package controller
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
-	"database/sql"
 	"time"
 )
 
@@ -23,7 +23,7 @@ func AdminMainHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	stmt, err := db.Prepare("SELECT id, title, content, user_id, created_at FROM blog;")
+	stmt, err := db.Prepare("SELECT id, title, content, user_id, created_at FROM post;")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,32 +33,32 @@ func AdminMainHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var blogs Blogs
+	var posts Posts
 	for rows.Next() {
-		var blog Blog
-		err := rows.Scan(&blog.Id, &blog.Title, &blog.Content, &blog.UserId, &blog.CreatedAt)
+		var post Post
+		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.UserId, &post.CreatedAt)
 
 		if err != nil {
 			log.Fatal(err)
 		}
-		blogs = append(blogs, blog)
+		posts = append(posts, post)
 	}
-	err = t.ExecuteTemplate(w, "layout", blogs)
+	err = t.ExecuteTemplate(w, "layout", posts)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func NewBlogHandler(w http.ResponseWriter, r *http.Request) {
+func NewPostHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseGlob("resources/templates/layout/*")
-	t.ParseFiles("resources/templates/admin/blog/new.html")
+	t.ParseFiles("resources/templates/admin/post/new.html")
 	err := t.ExecuteTemplate(w, "layout", nil)
 	if err != nil {
 		fmt.Printf(err.Error(), w)
 	}
 }
 
-func CreateBlogHandler(w http.ResponseWriter, r *http.Request) {
+func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	title := r.FormValue("title")
 	content := r.FormValue("content")
@@ -69,7 +69,7 @@ func CreateBlogHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		stmt, err := db.Prepare("INSERT INTO blog (title, content, user_id, created_at) VALUES (?, ?, ?, ?)")
+		stmt, err := db.Prepare("INSERT INTO post (title, content, user_id, created_at) VALUES (?, ?, ?, ?)")
 		if err != nil {
 			log.Fatal(err)
 		}
