@@ -5,6 +5,6 @@
         ,"name": "flexiportal"
         ,"user": "flexiportal"
         ,"password": "flexiportal"
-        ,"port": 3306
+        ,"port": 5432
     }
 }

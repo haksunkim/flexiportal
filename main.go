@@ -31,7 +31,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dbConn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", Config.DB.User, Config.DB.Password, Config.DB.Host, strconv.Itoa(Config.DB.Port), Config.DB.Name)
+	dbConn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", Config.DB.User, Config.DB.Password, Config.DB.Host, strconv.Itoa(Config.DB.Port), Config.DB.Name)
 
 	controller.DBConn = dbConn
 

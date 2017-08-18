@@ -1,12 +1,26 @@
-CREATE TABLE post (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  guid VARCHAR(256) NOT NULL,
-  title VARCHAR(500) NOT NULL,
-  content LONGTEXT NOT NULL,
-  user_id BIGINT NOT NULL,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_by BIGINT NULL,
-  modified_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
-  UNIQUE KEY guid (guid)
+-- Table: public.post
+
+-- DROP TABLE public.post;
+
+CREATE SEQUENCE post_id_seq;
+CREATE TABLE public.post
+(
+  id bigint NOT NULL DEFAULT nextval('post_id_seq'),
+  guid character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  title character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  content text COLLATE pg_catalog."default" NOT NULL,
+  created_by bigint NOT NULL,
+  created_at timestamp without time zone NOT NULL,
+  modified_by bigint,
+  modified_at timestamp without time zone,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT unq_guid UNIQUE (guid)
 )
+  WITH (
+  OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.post
+OWNER to flexiportal;
+ALTER SEQUENCE post_id_seq OWNED BY post.id;

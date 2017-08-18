@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"strings"
+	"github.com/lib/pq"
 )
 
 var DBConn string
@@ -18,12 +20,12 @@ func AdminMainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	t.ParseFiles("resources/templates/admin/main.html")
 
-	db, err := sql.Open("mysql", DBConn)
+	db, err := sql.Open("postgres", DBConn)
 	defer db.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
-	stmt, err := db.Prepare("SELECT id, title, content, user_id, created_at FROM post;")
+	stmt, err := db.Prepare("SELECT id, title, content, created_by, created_at FROM post;")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -63,22 +65,20 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
 	content := r.FormValue("content")
 
+	guid := strings.Replace(title, " ", "-", -1)
+
 	if len(title) > 0 && len(content) > 0 {
-		db, err := sql.Open("mysql", DBConn)
+		db, err := sql.Open("postgres", DBConn)
 		defer db.Close()
 		if err != nil {
 			log.Fatal(err)
 		}
-		stmt, err := db.Prepare("INSERT INTO post (title, content, user_id, created_at) VALUES (?, ?, ?, ?)")
+		_, err = db.Exec("INSERT INTO post (guid, title, content, created_by, created_at) VALUES ($1, $2, $3, $4, $5)", guid, title, content, 1, pq.FormatTimestamp(time.Now()))
 		if err != nil {
-			log.Fatal(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		} else {
+			http.Redirect(w, r, "/admin/main", http.StatusSeeOther)
 		}
-		_, err = stmt.Exec(title, content, 1, time.Now())
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		http.Redirect(w, r, "/admin/main", http.StatusSeeOther)
 	} else {
 		log.Printf("Title: %s", title)
 	}

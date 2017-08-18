@@ -2,7 +2,7 @@ package controller
 
 import (
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 	"html/template"
 	"log"
 	"net/http"
@@ -22,12 +22,12 @@ type Posts []Post
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseGlob("resources/templates/layout/*")
 	t.ParseFiles("resources/templates/home/index.html")
-	db, err := sql.Open("mysql", DBConn)
+	db, err := sql.Open("postgres", DBConn)
 	defer db.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
-	stmt, err := db.Prepare("SELECT id, title, content, user_id, created_at FROM post;")
+	stmt, err := db.Prepare("SELECT id, title, content, created_by, created_at FROM post;")
 	if err != nil {
 		log.Fatal(err)
 	}
