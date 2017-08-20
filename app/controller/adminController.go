@@ -38,11 +38,12 @@ func AdminMainHandler(w http.ResponseWriter, r *http.Request) {
 	var posts Posts
 	for rows.Next() {
 		var post Post
-		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.UserId, &post.CreatedAt)
+		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.CreatedBy, &post.CreatedAt)
 
 		if err != nil {
 			log.Fatal(err)
 		}
+		post.StrCreatedAt = post.CreatedAt.Format("02/01/2006 15:04:05PM")
 		posts = append(posts, post)
 	}
 	err = t.ExecuteTemplate(w, "layout", posts)

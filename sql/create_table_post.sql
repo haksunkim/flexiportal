@@ -10,9 +10,9 @@ CREATE TABLE public.post
   title character varying(255) COLLATE pg_catalog."default" NOT NULL,
   content text COLLATE pg_catalog."default" NOT NULL,
   created_by bigint NOT NULL,
-  created_at timestamp without time zone NOT NULL,
+  created_at timestamp with time zone NOT NULL,
   modified_by bigint,
-  modified_at timestamp without time zone,
+  modified_at timestamp with time zone,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT unq_guid UNIQUE (guid)
 )

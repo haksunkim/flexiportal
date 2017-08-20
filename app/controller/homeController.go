@@ -14,8 +14,12 @@ type Post struct {
 	Guid      string
 	Title     string
 	Content   string
-	UserId    uint
+	CreatedBy    uint
 	CreatedAt *time.Time
+	StrCreatedAt string
+	ModifiedBy uint
+	ModifiedAt *time.Time
+	StrModifiedBy string
 }
 type Posts []Post
 
@@ -41,7 +45,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	var posts Posts
 	for rows.Next() {
 		var post Post
-		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.UserId, &post.CreatedAt)
+		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.CreatedBy, &post.CreatedAt)
 
 		if err != nil {
 			log.Fatal(err)

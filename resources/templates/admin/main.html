@@ -19,9 +19,9 @@
             <tbody>
             {{ range . }}
             <tr>
-                <td>{{ .Title }}</td>
+                <td>{{ .StrCreatedAt }}</td>
                 <td>{{ .Content }}</td>
-                <td>{{ .UserId }}</td>
+                <td>{{ .CreatedBy }}</td>
             </tr>
             {{ end }}
             </tbody>
