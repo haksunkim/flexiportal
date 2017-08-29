@@ -6,22 +6,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"time"
+	"github.com/haksunkim/flexiportal/app/entity"
 )
-
-type Post struct {
-	Id        uint
-	Guid      string
-	Title     string
-	Content   string
-	CreatedBy    uint
-	CreatedAt *time.Time
-	StrCreatedAt string
-	ModifiedBy uint
-	ModifiedAt *time.Time
-	StrModifiedBy string
-}
-type Posts []Post
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseGlob("resources/templates/layout/*")
@@ -42,9 +28,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var posts Posts
+	var posts entity.Posts
 	for rows.Next() {
-		var post Post
+		var post entity.Post
 		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.CreatedBy, &post.CreatedAt)
 
 		if err != nil {

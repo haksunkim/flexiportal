@@ -8,10 +8,11 @@ import (
 	"net/http"
 	"time"
 	"strings"
+	_ "github.com/lib/pq"
+	"github.com/haksunkim/flexiportal/app/entity"
 	"github.com/lib/pq"
 )
 
-var DBConn string
 
 func AdminMainHandler(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseGlob("resources/templates/layout/*")
@@ -35,9 +36,9 @@ func AdminMainHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var posts Posts
+	var posts entity.Posts
 	for rows.Next() {
-		var post Post
+		var post entity.Post
 		err := rows.Scan(&post.Id, &post.Title, &post.Content, &post.CreatedBy, &post.CreatedAt)
 
 		if err != nil {
@@ -83,4 +84,6 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Printf("Title: %s", title)
 	}
+
+
 }

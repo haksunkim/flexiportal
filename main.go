@@ -38,6 +38,8 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", controller.HomeHandler)
 	r.PathPrefix("/resources/").Handler(http.StripPrefix("/resources/", http.FileServer(http.Dir("./resources"))))
+	r.HandleFunc("/register", controller.DoRegisterHandler).Method("Post")
+	r.HandleFunc("/login", controller.DoLoginHandler).Method("Post")
 	r.HandleFunc("/admin/main", controller.AdminMainHandler)
 	r.HandleFunc("/admin/post/new", controller.NewPostHandler)
 	r.HandleFunc("/admin/post", controller.CreatePostHandler).
